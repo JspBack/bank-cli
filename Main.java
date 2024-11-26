@@ -15,8 +15,10 @@ public class Main {
             System.out.println("3. Deposit");
             System.out.println("4. Withdraw");
             System.out.println("5. Display Balances(Only for activated accounts)");
-            System.out.println("6. List Accounts");
-            System.out.println("7. Exit");
+            System.out.println("6. Get Detail of a account");
+            System.out.println("7. List Accounts");
+            System.out.println("8. Create Account");
+            System.out.println("9. Exit");
             System.out.print("Enter your choice: ");
             command = scanner.nextLine();
 
@@ -55,9 +57,23 @@ public class Main {
                     bank.displayBalances();
                     break;
                 case "6":
-                    bank.listAccounts();
+                    System.out.print("Enter account number to get detail: ");
+                    String detailAccount = scanner.nextLine();
+                    bank.getDetail(detailAccount);
                     break;
                 case "7":
+                    bank.listAccounts();
+                    break;
+                case "8":
+                    System.out.print("Should the account be activated immediately? (yes/no): ");
+                    String isActive = scanner.nextLine();
+                    boolean active = isActive.equalsIgnoreCase("yes");
+                    String newAccount = bank.createAccount(active);
+                    if (newAccount != null) {
+                        System.out.println("Account " + newAccount + (active ? " created and activated." : " created."));
+                    }
+                    break;
+                case "9":
                     System.out.println("Exiting the application.");
                     scanner.close();
                     System.exit(0);

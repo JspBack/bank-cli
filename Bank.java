@@ -5,12 +5,14 @@ import java.util.Map;
 public class Bank {
 
     private final Map<String, BankAccount> accounts;
+    private int nextAccountNumber;
 
     public Bank(int numAccounts) {
         this.accounts = new HashMap<>();
         for (int i = 0; i < numAccounts; i++) {
             accounts.put("A" + i, new BankAccount("A" + i));
         }
+        this.nextAccountNumber = numAccounts;
     }
 
     public void listAccounts() {
@@ -51,9 +53,13 @@ public class Bank {
         return account.getBalance();
     }
 
-    public String toString(String accountNumber) {
+    public void getDetail(String accountNumber) {
         BankAccount account = accounts.get(accountNumber);
-        return account.toString();
+        if (account == null) {
+            System.out.println("Account " + accountNumber + " does not exist.");
+            return;
+        }
+        System.out.println(account);
     }
 
     public void displayBalances() {
@@ -62,5 +68,13 @@ public class Bank {
                 System.out.println(account);
             }
         }
+    }
+
+    public String createAccount(boolean activated) {
+        String accountNumber = "A" + nextAccountNumber++;
+        BankAccount newAccount = new BankAccount(accountNumber);
+        newAccount.setActivated(activated);
+        accounts.put(accountNumber, newAccount);
+        return accountNumber;
     }
 }
